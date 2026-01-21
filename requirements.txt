@@ -1,0 +1,24 @@
+# Web Framework
+Flask==3.0.2
+
+# Generative AI & Deep Learning (Versi Sinkron)
+diffusers==0.26.3
+transformers==4.38.2
+accelerate==0.27.2
+safetensors==0.4.2
+huggingface-hub==0.23.2
+
+# Image & Data Processing
+opencv-python==4.9.0.80
+Pillow==10.2.0
+numpy==1.26.4
+
+# Utilities
+sentencepiece==0.1.99
+tqdm==4.66.2
+requests==2.31.0
+
+flask-login
+flask-bcrypt
+flask-sqlalchemy
+flask-dance[google]

@@ -1,0 +1,33 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="row justify-content-center pt-5">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <h4 class="card-title mb-4"><i class="bi bi-person-plus"></i> Daftarkan Admin Baru</h4>
+                <form action="{{ url_for('add_admin') }}" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Nama Lengkap</label>
+                        <input type="text" name="name" class="form-control" placeholder="Contoh: Admin Staging" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" placeholder="admin@email.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="Min. 6 Karakter" required>
+                    </div>
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-dark">Simpan Admin Baru</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <a href="{{ url_for('admin_dashboard') }}" class="text-muted text-decoration-none small">Kembali ke Dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

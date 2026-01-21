@@ -1,0 +1,94 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Dashboard Analisis Sentimen</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-white font-weight-bold">Distribusi Sentimen Pengguna</div>
+            <div class="card-body">
+                <canvas id="sentimentChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="row text-center">
+            {% for label, count in chart_data.items() %}
+            <div class="col-6 mb-3">
+                <div class="card p-3 shadow-sm border-0">
+                    <h6 class="text-muted">{{ label }}</h6>
+                    <h3>{{ count }}</h3>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="card shadow mt-4">
+    <div class="card-header bg-white">5 Review Terbaru dari Android</div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>User</th>
+                    <th>Review</th>
+                    <th>Rating</th>
+                    <th>AI Sentimen</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rev in recent_reviews %}
+                <tr>
+                    <td>{{ rev.user.name }}</td>
+                    <td><small>"{{ rev.content }}"</small></td>
+                    <td>{{ rev.star_rating }} ⭐</td>
+                    <td>
+                        <span class="badge {% if rev.sentiment == 'POSITIF' %}bg-success{% elif rev.sentiment == 'NEGATIF' %}bg-danger{% else %}bg-warning text-dark{% endif %}">
+                            {{ rev.sentiment }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script id="chart-data" type="application/json">
+    {
+        "labels": {{ chart_data.keys() | list | tojson | safe }},
+        "values": {{ chart_data.values() | list | tojson | safe }}
+    }
+</script>
+
+<script>
+    // Ambil data dari tag script di atas
+    const rawData = JSON.parse(document.getElementById('chart-data').textContent);
+
+    const ctx = document.getElementById('sentimentChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: rawData.labels,
+            datasets: [{
+                data: rawData.values,
+                backgroundColor: ['#198754', '#dc3545', '#ffc107', '#0dcaf0'],
+                hoverOffset: 10
+            }]
+        },
+        options: { 
+            responsive: true, 
+            plugins: { legend: { position: 'bottom' } } 
+        }
+    });
+</script>
+{% endblock %}

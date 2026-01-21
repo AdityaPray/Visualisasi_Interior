@@ -1,0 +1,36 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Semua Ulasan Pengguna</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Waktu</th>
+                    <th>User</th>
+                    <th>Isi Ulasan</th>
+                    <th>Rating</th>
+                    <th>Hasil AI</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rev in reviews %}
+                <tr>
+                    <td>{{ rev.id }}</td> <td>{{ rev.user.name }}</td>
+                    <td>{{ rev.content }}</td>
+                    <td>{{ rev.star_rating }} ⭐</td>
+                    <td>
+                        <span class="badge {% if rev.sentiment == 'POSITIF' %}bg-success{% elif rev.sentiment == 'NEGATIF' %}bg-danger{% else %}bg-warning{% endif %}">
+                            {{ rev.sentiment }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,5 @@
+models/
+__pycache__/
+*.pkl
+ngrok.exe
+.env
